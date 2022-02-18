@@ -9,7 +9,6 @@ import { PagesComponent } from './pages/pages.component';
 import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CapitalizePipe } from './pipes/capitalize.pipe';
 
 @NgModule({
   declarations: [
