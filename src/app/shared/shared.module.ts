@@ -7,9 +7,10 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DetailDialogComponent } from './components/detail-dialog/detail-dialog.component';
 import { TypeTagComponent } from './components/type-tag/type-tag.component';
-import { CapitalizePipe } from '../pipes/capitalize.pipe';
+import { CapitalizePipe } from '../pipes/capitalize/capitalize.pipe';
 import { RouterModule } from '@angular/router';
 import { CarouselComponent } from './components/carousel/carousel.component';
+import { SlicePipe } from '../pipes/slice-array/slice.pipe';
 
 const COMPONENTS = [
   HeaderComponent,
@@ -21,7 +22,8 @@ const COMPONENTS = [
 ]
 
 const PIPES = [
-  CapitalizePipe
+  CapitalizePipe,
+  SlicePipe
 ]
 
 @NgModule({

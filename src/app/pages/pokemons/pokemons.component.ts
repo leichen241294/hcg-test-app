@@ -7,6 +7,7 @@ import {
 } from 'src/app/constanst/common';
 import { PokemonService } from 'src/app/services/pokemon/pokemon.service';
 import { DetailDialogComponent } from 'src/app/shared/components/detail-dialog/detail-dialog.component';
+import { PokemonStoreService } from 'src/app/stores/pokemon.store.service';
 
 @Component({
   selector: 'app-pokemons',
@@ -22,11 +23,14 @@ export class PokemonsComponent implements OnInit {
   searchText: any;
   smallScreen = window.matchMedia('(max-width: 768px)').matches;
   limitSelect = [10, 20, 50, 100];
+  listPokemons$ = this.pokemonStores.listPokemons$;
+  isSearching = false;
 
   @ViewChild('searchInput') searchInput!: ElementRef;
   constructor(
     private pokemonService: PokemonService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private pokemonStores: PokemonStoreService
   ) {
     this.count = 0;
     this.page = 1;
@@ -36,6 +40,7 @@ export class PokemonsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListPokemons();
+    this.getAllPokemons();
   }
 
   ngAfterViewInit() {
@@ -47,12 +52,26 @@ export class PokemonsComponent implements OnInit {
         return event.target.value;
       }),
       debounceTime(300)
-    ).subscribe((e) => {
-      console.log('search text', e);
+    ).subscribe((searchText) => {
+      if (searchText) {
+        this.isSearching = true;
+        
+        this.listPokemons$.subscribe((res) => {
+          const fiteredList = res.filter((e: any) => {
+            return e.name.includes(searchText);
+          });
+          this.count = fiteredList.length;
+          this.listPokemons = fiteredList;
+        });
+      } else {
+        this.isSearching = false;
+        this.getListPokemons();
+      }
     });
   }
 
   async getListPokemons() {
+    if (this.isSearching) return;
     const params = {
       offset: this.offset,
       limit: this.limit,
@@ -73,6 +92,27 @@ export class PokemonsComponent implements OnInit {
         return Object.assign({}, pokemon, pokemonDetail, { image });
       })
     );
+  }
+
+  async getAllPokemons() {
+    const params = {
+      limit: 99999,
+    };
+
+    const res: any = await lastValueFrom(this.pokemonService.getListPokemon(params));
+    const listPokemons = await Promise.all(
+      res.results.map(async (pokemon: any) => {
+        const pokemonDetail: any = await lastValueFrom(
+          this.pokemonService.getDetailPokemon(pokemon.name)
+        );
+        const image =
+          pokemonDetail.sprites.other['official-artwork'].front_default;
+
+        return Object.assign({}, pokemon, pokemonDetail, { image });
+      })
+    );
+
+    this.listPokemons$.next(listPokemons);
   }
 
   openPokemonDetailDialog(pokemon = {}) {
