@@ -14,7 +14,7 @@
     </form>
   </div>
   <div class="row row-cols-lg-5 row-cols-2 my-5">
-    <ng-container *ngFor="let pokemon of listPokemons">
+    <ng-container *ngFor="let pokemon of (listPokemons | customSlice: (page - 1) * limit : page * limit)">
       <div class="col d-flex flex-column justify-content-center" (click)="openPokemonDetailDialog(pokemon)">
         <img [src]="pokemon.image" width="100%" />
         <span class="body-1 mt-2 d-flex justify-content-center text-capitalize">
