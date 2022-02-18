@@ -21,6 +21,7 @@ export class PokemonsComponent implements OnInit {
   count: number;
   searchText: any;
   smallScreen = window.matchMedia('(max-width: 768px)').matches;
+  limitSelect = [10, 20, 50, 100];
 
   @ViewChild('searchInput') searchInput!: ElementRef;
   constructor(
@@ -54,7 +55,7 @@ export class PokemonsComponent implements OnInit {
   async getListPokemons() {
     const params = {
       offset: this.offset,
-      limit: LIST_DEFAULT_LIMIT.pokemons,
+      limit: this.limit,
     };
 
     const res: any = await lastValueFrom(
@@ -82,7 +83,12 @@ export class PokemonsComponent implements OnInit {
 
   onPageChange(e: any) {
     this.page = e;
-    this.offset = (e - 1) * LIST_DEFAULT_LIMIT.pokemons;
+    this.offset = (e - 1) * this.limit;
+    this.getListPokemons();
+  }
+
+  handleSelectLimit(e: any) {
+    this.limit = Number(e.target.value);
     this.getListPokemons();
   }
 }

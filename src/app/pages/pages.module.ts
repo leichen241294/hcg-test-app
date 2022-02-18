@@ -8,6 +8,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PokemonsComponent } from './pokemons/pokemons.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { PokemonsComponent } from './pokemons/pokemons.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     PagesRoutingModule,
     SharedModule,
     NzLayoutModule,

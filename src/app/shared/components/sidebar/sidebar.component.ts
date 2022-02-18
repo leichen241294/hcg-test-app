@@ -36,7 +36,6 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('changes', changes["isOpenSidebar"]);
     if (changes["isOpenSidebar"].currentValue !== this.subSidebar) {
       this.subSidebar = changes["isOpenSidebar"].currentValue
     }
