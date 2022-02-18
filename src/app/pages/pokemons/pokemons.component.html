@@ -1,0 +1,42 @@
+<div class="pokemons-container p-3">
+  <div class="d-flex flex-column flex-lg-row justify-content-between">
+    <h4>List of Pokemon</h4>
+    <form class="d-flex">
+      <input
+        #searchInput
+        class="form-control me-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        id="searchInput"
+      />
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
+  <div class="row row-cols-lg-5 row-cols-2 my-5">
+    <ng-container *ngFor="let pokemon of listPokemons">
+      <div class="col d-flex flex-column justify-content-center" (click)="openPokemonDetailDialog(pokemon)">
+        <img [src]="pokemon.image" width="100%" />
+        <span class="body-1 mt-2 d-flex justify-content-center text-capitalize">
+          {{ pokemon.name | capitalize }}
+        </span>
+        <div class="d-flex justify-content-around">
+          <ng-container *ngFor="let item of pokemon.types">
+            <app-type-tag [pokemonType]="item.type.name"></app-type-tag>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="pagination d-flex justify-content-end">
+    <ngb-pagination
+      [collectionSize]="count"
+      [(page)]="page"
+      [pageSize]="limit"
+      [maxSize]="smallScreen ? 3 : 5"
+      [rotate]="true"
+      [boundaryLinks]="true"
+      (pageChange)="onPageChange($event)"
+    ></ngb-pagination>
+  </div>
+</div>

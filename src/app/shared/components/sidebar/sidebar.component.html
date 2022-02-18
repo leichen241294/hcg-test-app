@@ -1,0 +1,61 @@
+<div class="sidebar flex-shrink-0 p-3 bg-white" [ngClass]="{'reveal': subSidebar}">
+  <div class="logo d-flex justify-content-center">
+    <img src="./../../../../assets/pokeball.png" width="40" height="40" />
+  </div>
+  <div class="sidebar-icon d-flex justify-content-center align-items-center">
+    <a class="cursor-pointer text-black" (click)="toggle()">
+      <fa-icon [icon]="faIcons.faBars"></fa-icon>
+    </a>
+  </div>
+</div>
+<div *ngIf="subSidebar" class="sub-sidebar d-flex" [ngClass]="{'reveal': subSidebar}">
+  <div class="sub-sidebar-icon p-3 border-end d-flex flex-column align-items-center">
+    <div class="logo d-flex justify-content-center">
+      <img src="./../../../../assets/pokeball.png" width="40" height="40" />
+    </div>
+    <div class="sidebar-icon d-flex justify-content-center align-items-center h-100">
+      <a class="cursor-pointer text-black" (click)="toggle()">
+        <fa-icon class="ms-2" [icon]="faIcons.faXmark"></fa-icon>
+      </a>
+    </div>
+  </div>
+  <ul class="list-unstyled p-3">
+    <li class="navbar-side-item">
+      <button type="button" class="border-0 btn-toggle bg-white p-0" (click)="collapseToggle(collapseGenerations, $event)" [attr.aria-expanded]="!isCollapsedMenu.generations" aria-controls="collapseGenerations">
+        <span class="body-3">Generation</span>
+        <fa-icon class="body-3 ms-2" [icon]="faIcons.faChevronDown"></fa-icon>
+      </button>
+      <div #collapseGenerations="ngbCollapse" [(ngbCollapse)]="isCollapsedMenu.generations">
+        <ng-container *ngFor="let item of listGenerations">
+          <div>
+            <span class="px-3 py-1 body-3">
+              {{ item.name }}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+    </li>
+    <li class="navbar-side-item">
+      <button type="button" class="border-0 btn-toggle bg-white p-0" (click)="collapseToggle(collapseVersion, $event)" [attr.aria-expanded]="!isCollapsedMenu.version" aria-controls="collapseVersion">
+        <span class="body-3">Version</span>
+        <fa-icon class="body-3 ms-2" [icon]="faIcons.faChevronDown"></fa-icon>
+      </button>
+      <div #collapseVersion="ngbCollapse" [(ngbCollapse)]="isCollapsedMenu.version">
+        <ng-container *ngFor="let item of listGames">
+          <div>
+            <span class="px-3 py-1 body-3">
+              {{ item.name }}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+    </li>
+    <li>
+      <a class="body-3 text-decoration-none text-black" routerLink="/">Locations</a>
+    </li>
+    <li>
+      <a class="body-3 text-decoration-none text-black" routerLink="/">Items</a>
+    </li>
+   </ul>
+</div>
+<div class="overlay" (click)="toggle()" [ngClass]="{'d-block': subSidebar}"></div>
