@@ -16,10 +16,10 @@ import { PokemonStoreService } from 'src/app/stores/pokemon.store.service';
 })
 export class PokemonsComponent implements OnInit {
   listPokemons: any;
-  page: number;
-  offset: number;
-  limit: number;
-  count: number;
+  page: number = 1;
+  offset: number = LIST_DEFAULT_OFFSET.pokemons;;
+  limit: number = LIST_DEFAULT_LIMIT.pokemons;
+  count: number = 0;
   searchText: any;
   smallScreen = window.matchMedia('(max-width: 768px)').matches;
   limitSelect = [10, 20, 50, 100];
@@ -31,15 +31,9 @@ export class PokemonsComponent implements OnInit {
     private pokemonService: PokemonService,
     private modalService: NgbModal,
     private pokemonStores: PokemonStoreService
-  ) {
-    this.count = 0;
-    this.page = 1;
-    this.offset = LIST_DEFAULT_OFFSET.pokemons;
-    this.limit = LIST_DEFAULT_LIMIT.pokemons;
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.getListPokemons();
     this.getAllPokemons();
   }
 
@@ -63,39 +57,18 @@ export class PokemonsComponent implements OnInit {
           this.count = fiteredList.length;
           this.listPokemons = fiteredList;
         });
+
+        this.listPokemons$.next(this.listPokemons);
       } else {
         this.isSearching = false;
-        this.getListPokemons();
+        this.getAllPokemons();
       }
     });
   }
 
-  async getListPokemons() {
-    if (this.isSearching) return;
-    const params = {
-      offset: this.offset,
-      limit: this.limit,
-    };
-
-    const res: any = await lastValueFrom(
-      this.pokemonService.getListPokemon(params)
-    );
-    this.count = res.count;
-    this.listPokemons = await Promise.all(
-      res.results.map(async (pokemon: any) => {
-        const pokemonDetail: any = await lastValueFrom(
-          this.pokemonService.getDetailPokemon(pokemon.name)
-        );
-        const image =
-          pokemonDetail.sprites.other['official-artwork'].front_default;
-
-        return Object.assign({}, pokemon, pokemonDetail, { image });
-      })
-    );
-  }
-
   async getAllPokemons() {
     const params = {
+      offset: this.offset,
       limit: 99999,
     };
 
@@ -105,8 +78,7 @@ export class PokemonsComponent implements OnInit {
         const pokemonDetail: any = await lastValueFrom(
           this.pokemonService.getDetailPokemon(pokemon.name)
         );
-        const image =
-          pokemonDetail.sprites.other['official-artwork'].front_default;
+        const image = pokemonDetail.sprites.other['official-artwork'].front_default;
 
         return Object.assign({}, pokemon, pokemonDetail, { image });
       })
@@ -121,14 +93,7 @@ export class PokemonsComponent implements OnInit {
     return;
   }
 
-  onPageChange(e: any) {
-    this.page = e;
-    this.offset = (e - 1) * this.limit;
-    this.getListPokemons();
-  }
-
   handleSelectLimit(e: any) {
     this.limit = Number(e.target.value);
-    this.getListPokemons();
   }
 }
