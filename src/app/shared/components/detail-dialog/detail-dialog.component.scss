@@ -1,0 +1,25 @@
+.modal-header {
+  border-bottom: 1px solid #000;
+}
+
+.pokemon-img-container {
+  background-color: #78C850;
+  border-radius: 10px;
+  img, div {
+    background-color: #A7DB8D;
+    border-radius: 10px;
+  }
+
+}
+.detail-container {
+  span {
+    background-color: #A7DB8D;
+    border-radius: 20px
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .detail-column {
+    margin-top: 16px;
+  }
+}
