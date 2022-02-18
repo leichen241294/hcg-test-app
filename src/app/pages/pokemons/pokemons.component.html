@@ -14,7 +14,7 @@
     </form>
   </div>
   <div class="row row-cols-lg-5 row-cols-2 my-5">
-    <ng-container *ngFor="let pokemon of (listPokemons | customSlice: (page - 1) * limit : page * limit)">
+    <ng-container *ngFor="let pokemon of (listPokemons$ | async | customSlice: (page - 1) * limit : page * limit)">
       <div class="col d-flex flex-column justify-content-center" (click)="openPokemonDetailDialog(pokemon)">
         <img [src]="pokemon.image" width="100%" />
         <span class="body-1 mt-2 d-flex justify-content-center text-capitalize">
@@ -30,13 +30,12 @@
   </div>
   <div class="pagination d-flex justify-content-end">
     <ngb-pagination
-      [collectionSize]="count"
+      [collectionSize]="(this.listPokemons$ | async).length"
       [(page)]="page"
       [pageSize]="limit"
       [maxSize]="smallScreen ? 3 : 5"
       [rotate]="true"
       [boundaryLinks]="true"
-      (pageChange)="onPageChange($event)"
     ></ngb-pagination>
     <div class="limit-select ms-3">
       <select class="form-select" (change)="handleSelectLimit($event)">
