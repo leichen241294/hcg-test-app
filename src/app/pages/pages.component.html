@@ -1,0 +1,12 @@
+<div class="container-fluid wrap p-0 d-flex">
+  <app-sidebar [isOpenSidebar]="isToggleSidebar" (isCloseSidebar)="isToggleSidebar = false"></app-sidebar>
+  <main class="content w-100">
+    <app-header (isToggleSidebar)="toggleSidebar($event)"></app-header>
+    <div class="container-fluid p-0 d-flex">
+      <div class="d-flex flex-column w-100">
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+      </div>
+    </div>
+  </main>
+</div>

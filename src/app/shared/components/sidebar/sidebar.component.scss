@@ -1,0 +1,70 @@
+.sidebar {
+  height: 100%;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+
+  .btn-toggle {
+    background: transparent;
+  }
+
+  .sidebar-icon {
+    height: calc(100% - 40px);
+  }
+
+}
+
+.overlay {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #5f5f5f;
+  opacity: 0.6;
+  z-index: 990;
+}
+
+@media screen and (max-width: 767px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+.sub-sidebar {
+  height: 100%;
+  min-width: 20rem;
+  font-size: 1.6rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0;
+  background-color: #fff;
+  overflow-y: auto;
+  z-index: 1000;
+  -webkit-transform: translateX(-100%);
+  -ms-transform: translateX(-100%);
+  transform: translateX(-100%);
+  
+  .sub-sidebar-icon {
+    width: 73px;
+  }
+
+  &.reveal {
+    -webkit-transform: translateX(0%);
+    -ms-transform: translateX(0%);
+    transform: translateX(0%);
+  }
+
+  ::ng-deep {
+    .fa-chevron-down {
+      transform: rotate(90deg);
+      transition: transform .35s ease;
+      &.rotate-collapsed {
+        transform: rotate(0deg);
+        transition: transform .35s ease;
+      }
+    }
+  }
+}
+

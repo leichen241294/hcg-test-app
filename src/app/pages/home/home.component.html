@@ -1,0 +1,46 @@
+<div class="homepage p-3">
+  <section class="trailer-section mb-5">
+    <h5>Trailers</h5>
+    <div>
+      <app-carousel></app-carousel>
+    </div>
+  </section>
+
+  <section class="pokemon-section mb-5">
+    <div class="d-flex justify-content-between">
+      <h5>Pokemons</h5>
+      <a routerLink="/pokemons">See more...</a>
+    </div>
+    <div class="list-pokemons row">
+      <ng-container *ngFor="let pokemon of listPokemons">
+        <div class="col-xl-2 col-md-3 col-sm-6 py-2" (click)="openPokemonDetailDialog(pokemon)">
+          <div class="d-flex flex-column justify-content-center">
+            <img [src]="pokemon.image" width="100%" />
+            <span class="body-1 mt-2 d-flex justify-content-center text-capitalize">
+              {{ pokemon.name | capitalize }}
+            </span>
+            <div class="d-flex justify-content-around">
+              <ng-container *ngFor="let item of pokemon.types">
+                <app-type-tag [pokemonType]="item.type.name"></app-type-tag>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </section>
+  
+  <section class="items-section">
+    <h5>Items</h5>
+    <div class="list-items row">
+      <ng-container *ngFor="let item of listItems">
+        <div class="col-md-2 col-sm-3">
+          <img [src]="item.sprites.default" width="100%" />
+            <span class="body-1 mt-2 d-flex justify-content-center text-capitalize">
+              {{ item.name | capitalize }}
+            </span>
+        </div>
+      </ng-container>
+    </div>
+  </section>
+</div>
